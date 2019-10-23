@@ -5,7 +5,7 @@
 # Document parameters here.
 #
 # [*webapp*]        The name of the application (context). Defaults to $name
-# [*instance*]      The instance this application should be installed in (see tomcat::instance).
+# [*instance*]      The instance this application should be installed in (see tomcatlegacy::instance).
 # [*groupid*]       The groupid of the application to install.
 # [*artifactid*]    The artifact of the application to install.
 # [*version*]       The version of the application to install.
@@ -14,7 +14,7 @@
 #
 # === Examples
 #
-#  tomcat::webapp::maven { 'ROOT':
+#  tomcatlegacy::webapp::maven { 'ROOT':
 #   instance   => 'instance_1',
 #   groupid    => 'org.sonatype.nexus',
 #   artifactid => 'nexus-webapp',
@@ -29,7 +29,7 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::webapp::maven (
+define tomcatlegacy::webapp::maven (
     $webapp = "${name}.war",
     $instance,
     $groupid,
@@ -37,15 +37,15 @@ define tomcat::webapp::maven (
     $version,
     $repos  = []) {
     include maven
-    include tomcat
+    include tomcatlegacy
 
-    maven { "${tomcat::params::home}/${instance}/tomcat/webapps/${webapp}.war":
+    maven { "${tomcatlegacy::params::home}/${instance}/tomcat/webapps/${webapp}.war":
         groupid    => $groupid,
         artifactid => $artifactid,
         version    => $version,
         packaging  => 'war',
         repos      => $repos,
-        require    => [File["${tomcat::params::home}/${instance}/tomcat/webapps"], Package['maven']],
+        require    => [File["${tomcatlegacy::params::home}/${instance}/tomcat/webapps"], Package['maven']],
         notify     => $notify,
     }
 }

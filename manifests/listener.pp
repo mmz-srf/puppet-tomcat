@@ -11,7 +11,7 @@
 #
 # === Examples
 #
-#  tomcat::listener { 'instance_1:org.apache.catalina.core.AprLifecycleListener':
+#  tomcatlegacy::listener { 'instance_1:org.apache.catalina.core.AprLifecycleListener':
 #    ensure       => present,
 #    instance     => 'instance_1',
 #    class_name   => 'org.apache.catalina.core.AprLifecycleListener',
@@ -26,16 +26,16 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::listener (
+define tomcatlegacy::listener (
     $instance,
     $class_name,
     $attributes = [],
     $ensure     = present) {
     if ($ensure != absent) {
         concat::fragment { "Adding ${class_name} Connector for ${instance}":
-            target  => "${tomcat::params::home}/${instance}/tomcat/conf/server-listeners.xml",
+            target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/server-listeners.xml",
             order   => 01,
-            content => template('tomcat/listener.xml.erb'),
+            content => template('tomcatlegacy/listener.xml.erb'),
         }
     }
 

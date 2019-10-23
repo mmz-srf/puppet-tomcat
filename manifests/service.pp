@@ -8,7 +8,7 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::service (
+define tomcatlegacy::service (
   $ensure          = 'running',
   $provider        = 'base',
   $systemd_restart = false,
@@ -18,7 +18,7 @@ define tomcat::service (
     service { $name:
       ensure     => $ensure,
       provider   => 'base',
-      pattern    => "-Dcatalina.base=${tomcat::params::home}/${name}/tomcat",
+      pattern    => "-Dcatalina.base=${tomcatlegacy::params::home}/${name}/tomcat",
       start      => "/usr/sbin/tomcat start --instance=${name} --timeout=0",
       stop       => "/usr/sbin/tomcat stop --instance=${name} --timeout=0",
       hasrestart => false,
@@ -27,7 +27,7 @@ define tomcat::service (
   } elsif ($provider == 'systemd') {
     file {"/etc/systemd/system/${name}.service":
       ensure => 'present',
-      content => template('tomcat/systemd.unit.erb'),
+      content => template('tomcatlegacy/systemd.unit.erb'),
     }->
     service { $name:
       ensure   => 'running',

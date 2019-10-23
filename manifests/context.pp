@@ -4,7 +4,7 @@
 #
 # Document parameters here.
 #
-# [*instance*]   The instance this definition should be installed in (see tomcat::instance).
+# [*instance*]   The instance this definition should be installed in (see tomcatlegacy::instance).
 # [*context*]    The context this configuration applies.
 # [*content*]    The content of the context definition.
 #
@@ -12,7 +12,7 @@
 #
 # === Examples
 #
-#  tomcat::context { 'ROOT':
+#  tomcatlegacy::context { 'ROOT':
 #   instance => 'instance_1',
 #   content  => '<Context antiResourceLocking="false"/>',
 #  }
@@ -24,17 +24,17 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::context (
+define tomcatlegacy::context (
     $instance,
     $context = $name,
     $content) {
     if ($context == 'ROOT') {
-        $notify = Tomcat::Service[$instance]
+        $notify = Tomcatlegacy::Service[$instance]
     } else {
         $notify = undef
     }
 
-    file { "${tomcat::params::home}/${instance}/tomcat/conf/Catalina/localhost/${context}.xml":
+    file { "${tomcatlegacy::params::home}/${instance}/tomcat/conf/Catalina/localhost/${context}.xml":
         content => $content,
         owner   => $instance,
         mode    => '0644',

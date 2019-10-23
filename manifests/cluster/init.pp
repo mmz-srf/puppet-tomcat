@@ -8,33 +8,33 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::cluster::init (
+define tomcatlegacy::cluster::init (
     $instance = $name,
     $ensure   = present,) {
     if ($ensure != absent) {
         include concat::setup
 
-        concat { "${tomcat::params::home}/${instance}/tomcat/conf/engine-cluster.xml":
+        concat { "${tomcatlegacy::params::home}/${instance}/tomcat/conf/engine-cluster.xml":
             owner   => $instance,
             group   => $instance,
             mode    => '0640',
-            require => File["${tomcat::params::home}/${instance}/tomcat/conf"],
+            require => File["${tomcatlegacy::params::home}/${instance}/tomcat/conf"],
         }
 
-        concat { "${tomcat::params::home}/${instance}/tomcat/conf/host-cluster.xml":
+        concat { "${tomcatlegacy::params::home}/${instance}/tomcat/conf/host-cluster.xml":
             owner   => $instance,
             group   => $instance,
-            require => File["${tomcat::params::home}/${instance}/tomcat/conf"],
+            require => File["${tomcatlegacy::params::home}/${instance}/tomcat/conf"],
         }
 
         concat::fragment { "Adding Default Engine Cluster content for ${instance}":
-            target  => "${tomcat::params::home}/${instance}/tomcat/conf/engine-cluster.xml",
+            target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/engine-cluster.xml",
             order   => 00,
             content => '<?xml version=\'1.0\' encoding=\'utf-8\'?>',
         }
 
         concat::fragment { "Adding Default Host Cluster content for ${instance}":
-            target  => "${tomcat::params::home}/${instance}/tomcat/conf/host-cluster.xml",
+            target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/host-cluster.xml",
             order   => 00,
             content => '<?xml version=\'1.0\' encoding=\'utf-8\'?>',
         }

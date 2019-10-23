@@ -1,11 +1,11 @@
-define tomcat::jndi::database::hsql (
+define tomcatlegacy::jndi::database::hsql (
     $instance,
     $resource_name = 'jdbc/HsqlPool',
     $url           = 'jdbc:hsqldb:data',
     $max_active    = '8',
     $max_idle      = '4',
 ) {
-    tomcat::jndi::resource { "${instance}:${resource_name}":
+    tomcatlegacy::jndi::resource { "${instance}:${resource_name}":
         instance      => $instance,
         resource_name => $resource_name,
         attributes    => [
@@ -19,7 +19,7 @@ define tomcat::jndi::database::hsql (
         ],
     }
 
-    tomcat::lib::maven { "${instance}:hsqldb-2.2.9":
+    tomcatlegacy::lib::maven { "${instance}:hsqldb-2.2.9":
         lib        => 'hsqldb-2.2.9.jar',
         instance   => $instance,
         groupid    => 'org.hsqldb',

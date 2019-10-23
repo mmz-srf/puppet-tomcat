@@ -1,4 +1,4 @@
-define tomcat::jndi::database (
+define tomcatlegacy::jndi::database (
     $instance      = $name,
     $resource_name = 'jdbc/DefaultPool',
     $resource_type = 'javax.sql.DataSource',
@@ -11,7 +11,7 @@ define tomcat::jndi::database (
     $max_idle      = undef,
     $factory       = undef,
 ) {
-    tomcat::jndi::resource { "${instance}:${resource_name}":
+    tomcatlegacy::jndi::resource { "${instance}:${resource_name}":
         instance        => $instance,
         resource_name   => $resource_name,
         attributes => [

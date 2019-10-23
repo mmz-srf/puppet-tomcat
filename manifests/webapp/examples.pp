@@ -4,13 +4,13 @@
 #
 # Document parameters here.
 #
-# [*instance*]  The instance this application should be installed in (see tomcat::instance). Defaults to $name.
+# [*instance*]  The instance this application should be installed in (see tomcatlegacy::instance). Defaults to $name.
 #
 # === Variables
 #
 # === Examples
 #
-#  tomcat::webapp::examples { 'instance_1': }
+#  tomcatlegacy::webapp::examples { 'instance_1': }
 #
 # === Authors
 #
@@ -20,17 +20,17 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::webapp::examples ($instance = $name) {
-    include tomcat
+define tomcatlegacy::webapp::examples ($instance = $name) {
+    include tomcatlegacy
 
-    if (!defined(Package["tomcat${tomcat::version}-examples"])) {
-        package { "tomcat${tomcat::version}-examples": ensure => held, }
+    if (!defined(Package["tomcat${tomcatlegacy::version}-examples"])) {
+        package { "tomcat${tomcatlegacy::version}-examples": ensure => held, }
     }
 
-    tomcat::context { "${instance}:examples.xml":
-        content  => "<Context path=\"/manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcat::version}-examples/examples\"></Context>",
+    tomcatlegacy::context { "${instance}:examples.xml":
+        content  => "<Context path=\"/manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcatlegacy::version}-examples/examples\"></Context>",
         context  => 'examples',
         instance => $instance,
-        require  => Tomcat::Instance[$instance],
+        require  => Tomcatlegacy::Instance[$instance],
     }
 }

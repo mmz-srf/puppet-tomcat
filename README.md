@@ -13,7 +13,7 @@ Basic usage
 -------------------------
 To install Tomcat
 
-    include tomcat
+    include tomcatlegacy
 
 Configure an instance
 -------------------------

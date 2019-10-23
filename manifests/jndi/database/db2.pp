@@ -1,4 +1,4 @@
-define tomcat::jndi::database::db2 (
+define tomcatlegacy::jndi::database::db2 (
     $database,
     $username,
     $password,
@@ -14,7 +14,7 @@ define tomcat::jndi::database::db2 (
     $max_active     = '8',
     $max_idle       = '4',
 ) {
-    tomcat::jndi::resource { "${instance}:${resource_name}":
+    tomcatlegacy::jndi::resource { "${instance}:${resource_name}":
         instance      => $instance,
         resource_name => $resource_name,
         attributes    => [
@@ -28,7 +28,7 @@ define tomcat::jndi::database::db2 (
         ],
     }
 
-    tomcat::lib { "${instance}:db2jcc":
+    tomcatlegacy::lib { "${instance}:db2jcc":
         lib      => 'db2jcc.jar',
         instance => $instance,
         source   => $driver_lib,

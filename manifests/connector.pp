@@ -1,4 +1,4 @@
-# ==== Resource: tomcat::connector
+# ==== Resource: tomcatlegacy::connector
 #
 # This resource creates a tomcat connector, see : http://tomcat.apache.org/tomcat-7.0-doc/config/http.html
 #
@@ -17,7 +17,7 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::connector (
+define tomcatlegacy::connector (
     $ensure       = present,
     $instance     = $name,
     $port         = 0,
@@ -25,9 +25,9 @@ define tomcat::connector (
     $attributes   = [],) {
     if ($ensure != absent) {
         concat::fragment { "Adding ${name} Connector for ${instance}":
-            target  => "${tomcat::params::home}/${instance}/tomcat/conf/connectors.xml",
+            target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/connectors.xml",
             order   => 01,
-            content => template('tomcat/connector.xml.erb'),
+            content => template('tomcatlegacy/connector.xml.erb'),
         }
 
     }

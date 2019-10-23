@@ -1,4 +1,4 @@
-define tomcat::jndi::environment (
+define tomcatlegacy::jndi::environment (
     $instance,
     $type         = 'context',
     $env_name     = $name,
@@ -6,8 +6,8 @@ define tomcat::jndi::environment (
     $env_type     = 'java.lang.String',
     $env_override = false,) {
     concat::fragment { "Adding JNDI Environment var ${env_name} for ${instance}":
-        target  => "${tomcat::params::home}/${instance}/tomcat/conf/${type}-jndi-environmentvars.xml",
+        target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/${type}-jndi-environmentvars.xml",
         order   => 01,
-        content => template('tomcat/jndi-environmentvars.xml.erb'),
+        content => template('tomcatlegacy/jndi-environmentvars.xml.erb'),
     }
 }

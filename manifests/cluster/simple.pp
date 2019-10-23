@@ -1,4 +1,4 @@
-define tomcat::cluster::simple (
+define tomcatlegacy::cluster::simple (
   $instance                  = $name,
   $channel_send_options      = '8',
   $multicast_ip              = '228.0.0.4',
@@ -13,8 +13,8 @@ define tomcat::cluster::simple (
   $type                      = 'engine', # engine / host
   ) {
   concat::fragment { "Adding Simple Cluster Config for ${instance}":
-    target  => "${tomcat::params::home}/${instance}/tomcat/conf/${type}-cluster.xml",
+    target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/${type}-cluster.xml",
     order   => 01,
-    content => template('tomcat/cluster.xml.erb'),
+    content => template('tomcatlegacy/cluster.xml.erb'),
   }
 }

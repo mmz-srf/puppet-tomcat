@@ -2,13 +2,13 @@
 #
 # === Parameters
 #
-# [*instance*]  The instance this application should be installed in (see tomcat::instance). Defaults to $name.
+# [*instance*]  The instance this application should be installed in (see tomcatlegacy::instance). Defaults to $name.
 #
 # === Variables
 #
 # === Examples
 #
-#  tomcat::webapp::manager { 'instance_1': }
+#  tomcatlegacy::webapp::manager { 'instance_1': }
 #
 # === Authors
 #
@@ -18,24 +18,24 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::webapp::manager ($instance = $name) {
-    include tomcat
+define tomcatlegacy::webapp::manager ($instance = $name) {
+    include tomcatlegacy
 
-    if (!defined(Package["tomcat${tomcat::version}-admin"])) {
-        package { "tomcat${tomcat::version}-admin": ensure => held, }
+    if (!defined(Package["tomcat${tomcatlegacy::version}-admin"])) {
+        package { "tomcat${tomcatlegacy::version}-admin": ensure => held, }
     }
 
-    tomcat::context { "${name} manager.xml":
-        content  => "<Context path=\"/manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcat::version}-admin/manager\"></Context>",
+    tomcatlegacy::context { "${name} manager.xml":
+        content  => "<Context path=\"/manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcatlegacy::version}-admin/manager\"></Context>",
         context  => 'manager',
         instance => $instance,
-        require  => Package["tomcat${tomcat::version}-admin"],
+        require  => Package["tomcat${tomcatlegacy::version}-admin"],
     }
 
-    tomcat::context { "${name} host-manager.xml":
-        content  => "<Context path=\"/host-manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcat::version}-admin/host-manager\"></Context>",
+    tomcatlegacy::context { "${name} host-manager.xml":
+        content  => "<Context path=\"/host-manager\" privileged=\"true\" antiResourceLocking=\"false\" docBase=\"/usr/share/tomcat${tomcatlegacy::version}-admin/host-manager\"></Context>",
         context  => 'host-manager',
         instance => $instance,
-        require  => Package["tomcat${tomcat::version}-admin"],
+        require  => Package["tomcat${tomcatlegacy::version}-admin"],
     }
 }

@@ -1,4 +1,4 @@
-# ==== Resource: tomcat::connector::http
+# ==== Resource: tomcatlegacy::connector::http
 #
 # This resource creates a tomcat connector, see : http://tomcat.apache.org/tomcat-7.0-doc/config/http.html
 #
@@ -12,14 +12,14 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::connector::http (
+define tomcatlegacy::connector::http (
     $ensure       = present,
     $instance     = $name,
     $address      = '0.0.0.0',
     $port         = 8080,
     $scheme       = 'http',
     $uri_encoding = 'UTF-8',) {
-    tomcat::connector { $instance:
+    tomcatlegacy::connector { $instance:
         ensure       => $ensure,
         instance     => $instance,
         port         => $port,

@@ -1,4 +1,4 @@
-define tomcat::jndi::resource (
+define tomcatlegacy::jndi::resource (
     $resource_name,
     $instance,
     $type          = 'context',
@@ -6,8 +6,8 @@ define tomcat::jndi::resource (
     $attributes    = [],
 ) {
     concat::fragment { "Adding JNDI Resource ${resource_name} for ${instance}":
-        target  => "${tomcat::params::home}/${instance}/tomcat/conf/${type}-jndi-resources.xml",
+        target  => "${tomcatlegacy::params::home}/${instance}/tomcat/conf/${type}-jndi-resources.xml",
         order   => 01,
-        content => template('tomcat/jndi-resources.xml.erb'),
+        content => template('tomcatlegacy/jndi-resources.xml.erb'),
     }
 }

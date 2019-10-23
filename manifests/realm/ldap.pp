@@ -1,4 +1,4 @@
-define tomcat::realm::ldap (
+define tomcatlegacy::realm::ldap (
     $instance,
     $classname      = 'org.apache.catalina.realm.JNDIRealm',
     $connectionurl  = 'ldaps://localhost:1636',

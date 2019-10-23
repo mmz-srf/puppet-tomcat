@@ -5,7 +5,7 @@
 # Document parameters here.
 #
 # [*lib*]           The outputfile (artifactid). Defaults to $name.jar
-# [*instance*]      The instance this library should be installed in (see tomcat::instance).
+# [*instance*]      The instance this library should be installed in (see tomcatlegacy::instance).
 # [*groupid*]       The groupid of the library to install.
 # [*artifactid*]    The artifactid of the library to install.
 # [*version*]       The version of the library to install.
@@ -14,7 +14,7 @@
 #
 # === Examples
 #
-#  tomcat::lib::maven { 'mysql-connector-java-5.1.24':
+#  tomcatlegacy::lib::maven { 'mysql-connector-java-5.1.24':
 #   instance   => 'instance_1',
 #   groupid    => 'mysql',
 #   artifactid => 'mysql-connector-java',
@@ -29,16 +29,16 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::lib::maven ($lib = "${name}.jar", $instance, $groupid, $artifactid, $version, $repos =[]) {
+define tomcatlegacy::lib::maven ($lib = "${name}.jar", $instance, $groupid, $artifactid, $version, $repos =[]) {
     include ::maven
     
-    maven { "${tomcat::params::home}/${instance}/tomcat/lib/${lib}":
+    maven { "${tomcatlegacy::params::home}/${instance}/tomcat/lib/${lib}":
         groupid    => $groupid,
         artifactid => $artifactid,
         version    => $version,
         packaging  => 'jar',
         repos      => $repos,
-        notify     => Tomcat::Instance[$instance],
+        notify     => Tomcatlegacy::Instance[$instance],
         require    => Package['maven'],
     }
 }

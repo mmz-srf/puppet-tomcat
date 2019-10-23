@@ -1,4 +1,4 @@
-# == Class: tomcat::params
+# == Class: tomcatlegacy::params
 #
 # This class manages Tomcat parameters.
 #
@@ -16,7 +16,7 @@
 #
 # Copyright 2013 Proteon.
 #
-class tomcat::params {
+class tomcatlegacy::params {
     $root       = '/opt/tomcat'
     $home       = "${root}/sites"
     $version    = 7

@@ -1,4 +1,4 @@
-# ==== Resource: tomcat::jndi::database::mysql
+# ==== Resource: tomcatlegacy::jndi::database::mysql
 #
 # This resource adds a mysql database connection to the jndi resources. It will also create the database with the provided
 # parameters if not present or defined elsewhere.
@@ -27,7 +27,7 @@
 #
 # === Examples
 #
-#  tomcat::jndi::database::mysql { 'tomcat_01':
+#  tomcatlegacy::jndi::database::mysql { 'tomcat_01':
 #   database        => 'my_mysql_db',
 #   username        => 'my_user',
 #   password        => 'my_passw0rd',
@@ -50,7 +50,7 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::jndi::database::mysql (
+define tomcatlegacy::jndi::database::mysql (
     $database,
     $username,
     $password,
@@ -68,7 +68,7 @@ define tomcat::jndi::database::mysql (
     $auto_reconnect     = true,
     $validation_query   = 'SELECT 1',
 ) {
-    tomcat::jndi::resource { "${instance}:${resource_name}":
+    tomcatlegacy::jndi::resource { "${instance}:${resource_name}":
         instance      => $instance,
         resource_name => $resource_name,
         attributes    => [
@@ -85,8 +85,8 @@ define tomcat::jndi::database::mysql (
         ],
     }
 
-    if(!defined(Tomcat::Lib::Maven["${instance}:mysql-connector-java-5.1.24"])) {
-	    tomcat::lib::maven { "${instance}:mysql-connector-java-5.1.24":
+    if(!defined(Tomcatlegacy::Lib::Maven["${instance}:mysql-connector-java-5.1.24"])) {
+	    tomcatlegacy::lib::maven { "${instance}:mysql-connector-java-5.1.24":
 	        lib        => 'mysql-connector-java-5.1.24.jar',
 	        instance   => $instance,
 	        groupid    => 'mysql',

@@ -1,4 +1,4 @@
-# == Class: Tomcat
+# == Class: Tomcatlegacy
 #
 # === Parameters
 #
@@ -8,7 +8,7 @@
 #
 # === Examples
 #
-#  class { tomcat:
+#  class { tomcatlegacy:
 #    version  => 6
 #  }
 #
@@ -20,7 +20,7 @@
 #
 # Copyright 2013 Proteon.
 #
-class tomcat ($version = $tomcat::params::version) inherits tomcat::params {
+class tomcatlegacy ($version = $tomcatlegacy::params::version) inherits tomcatlegacy::params {
 
     include concat::setup
 
@@ -46,7 +46,7 @@ class tomcat ($version = $tomcat::params::version) inherits tomcat::params {
           ensure            => installed,
           install_options   => ["-t","${::lsbdistcodename}-backports"],
           require           => User['tomcat'],
-      } -> Tomcat::Instance <||>
+      } -> Tomcatlegacy::Instance <||>
     } else {
       package {[
           "tomcat${version}",
@@ -55,11 +55,11 @@ class tomcat ($version = $tomcat::params::version) inherits tomcat::params {
           'libcommons-logging-java',
       ]:
           ensure            => installed,
-      } -> Tomcat::Instance <||>
+      } -> Tomcatlegacy::Instance <||>
     }
 
 
-    file { [$tomcat::params::root, $tomcat::params::home, '/etc/tomcat.d/',]:
+    file { [$tomcatlegacy::params::root, $tomcatlegacy::params::home, '/etc/tomcat.d/',]:
         ensure => directory,
         owner  => 'root',
         group  => 'root',
@@ -67,7 +67,7 @@ class tomcat ($version = $tomcat::params::version) inherits tomcat::params {
     }
 
     file { '/etc/init.d/tomcat':
-        source => 'puppet:///modules/tomcat/tomcat',
+        source => 'puppet:///modules/tomcatlegacy/tomcat',
         owner  => 'root',
         group  => 'root',
         mode   => '0755',

@@ -5,14 +5,14 @@
 # Document parameters here.
 #
 # [*webapp*]    The name of the application (context). Defaults to $name
-# [*instance*]  The instance this application should be installed in (see tomcat::instance).
+# [*instance*]  The instance this application should be installed in (see tomcatlegacy::instance).
 # [*source*]    The application to install (a war file).
 #
 # === Variables
 #
 # === Examples
 #
-#  tomcat::webapp { 'jira':
+#  tomcatlegacy::webapp { 'jira':
 #   instance => 'instance_1',
 #   source   => 'puppet:///modules/jira/jira.war',
 # === Authors
@@ -23,9 +23,9 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::webapp ($webapp = $name, $instance, $source) {
+define tomcatlegacy::webapp ($webapp = $name, $instance, $source) {
 
-    file { "${tomcat::params::home}/${instance}/tomcat/webapps/${webapp}.war":
+    file { "${tomcatlegacy::params::home}/${instance}/tomcat/webapps/${webapp}.war":
         source  => $source,
         owner   => $instance,
         mode    => '0644',

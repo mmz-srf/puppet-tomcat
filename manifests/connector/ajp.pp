@@ -1,4 +1,4 @@
-# ==== Resource: tomcat::connector::ajp
+# ==== Resource: tomcatlegacy::connector::ajp
 #
 # This resource creates a tomcat AJP connector, see : http://tomcat.apache.org/tomcat-7.0-doc/config/ajp.html
 #
@@ -12,14 +12,14 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::connector::ajp (
+define tomcatlegacy::connector::ajp (
     $ensure       = present,
     $instance     = $name,
     $address      = '0.0.0.0',
     $port         = 8009,
     $protocol     = 'AJP/1.3',
     $uri_encoding = 'UTF-8',) {
-    tomcat::connector { $name:
+    tomcatlegacy::connector { $name:
         ensure       => $ensure,
         instance     => $instance,
         port         => $port,

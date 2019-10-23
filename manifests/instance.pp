@@ -17,7 +17,7 @@
 #
 # === Examples
 #
-#  tomcat::instance { 'instance_1':
+#  tomcatlegacy::instance { 'instance_1':
 #   shutdown_port => '8006',
 #   apr_enabled   => true,
 #   max_heap      => '2048m',
@@ -36,7 +36,7 @@
 #
 # Copyright 2013 Proteon.
 #
-define tomcat::instance (
+define tomcatlegacy::instance (
     $shutdown_port     = 8005,
     $apr_enabled       = true,
     $pidfile_enabled   = true,
@@ -61,11 +61,11 @@ define tomcat::instance (
     $user_groups       = [],
     $version           = 8,
  ) {
-    include tomcat
+    include tomcatlegacy
 
-    $instance_home = "${tomcat::params::home}/${name}"
+    $instance_home = "${tomcatlegacy::params::home}/${name}"
 
-    tomcat::service { $name:
+    tomcatlegacy::service { $name:
         ensure => $ensure ? {
             present => 'running',
             absent  => 'stopped',
@@ -76,42 +76,42 @@ define tomcat::instance (
         version         => $version,
     }
 
-    tomcat::connector::init { $name:
+    tomcatlegacy::connector::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    tomcat::listener::init { $name:
+    tomcatlegacy::listener::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    tomcat::jndi::init { $name:
+    tomcatlegacy::jndi::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    tomcat::realm::init { $name:
+    tomcatlegacy::realm::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    tomcat::valve::init { $name:
+    tomcatlegacy::valve::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    tomcat::cluster::init { $name:
+    tomcatlegacy::cluster::init { $name:
         ensure => $ensure,
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
-    if (!defined(Tomcat::Connector[$name])) {
-        tomcat::connector::http { $name: ensure => $ensure, }
+    if (!defined(Tomcatlegacy::Connector[$name])) {
+        tomcatlegacy::connector::http { $name: ensure => $ensure, }
     }
 
     if ($apr_enabled) {
-        tomcat::listener { "${name}:org.apache.catalina.core.AprLifecycleListener":
+        tomcatlegacy::listener { "${name}:org.apache.catalina.core.AprLifecycleListener":
             instance   => $name,
             class_name => 'org.apache.catalina.core.AprLifecycleListener',
             attributes => [{
@@ -122,29 +122,29 @@ define tomcat::instance (
     }
 
     if ($jmx_enabled and $jmx_authenticate) {
-        tomcat::jmx::init { $name: }
+        tomcatlegacy::jmx::init { $name: }
     }
 
-    if ($tomcat::version < 8) {
-        tomcat::listener { "${name}:org.apache.catalina.core.JasperListener":
+    if ($tomcatlegacy::version < 8) {
+        tomcatlegacy::listener { "${name}:org.apache.catalina.core.JasperListener":
             instance   => $name,
             class_name => 'org.apache.catalina.core.JasperListener',
         }
     }
 
-    tomcat::listener { "${name}:org.apache.catalina.core.JreMemoryLeakPreventionListener":
+    tomcatlegacy::listener { "${name}:org.apache.catalina.core.JreMemoryLeakPreventionListener":
         instance   => $name,
         class_name => 'org.apache.catalina.core.JreMemoryLeakPreventionListener',
     }
 
-    if ($tomcat::version < 7) {
-        tomcat::listener { "${name}:org.apache.catalina.mbeans.ServerLifecycleListener":
+    if ($tomcatlegacy::version < 7) {
+        tomcatlegacy::listener { "${name}:org.apache.catalina.mbeans.ServerLifecycleListener":
             instance   => $name,
             class_name => 'org.apache.catalina.mbeans.ServerLifecycleListener',
         }
     }
 
-    tomcat::listener { "${name}:org.apache.catalina.mbeans.GlobalResourcesLifecycleListener":
+    tomcatlegacy::listener { "${name}:org.apache.catalina.mbeans.GlobalResourcesLifecycleListener":
         instance   => $name,
         class_name => 'org.apache.catalina.mbeans.GlobalResourcesLifecycleListener',
     }
@@ -162,89 +162,89 @@ define tomcat::instance (
 
     file { "${instance_home}/tomcat/bin/bootstrap.jar":
         ensure => link,
-        target => "/usr/share/tomcat${tomcat::version}/bin/bootstrap.jar",
-        notify => Tomcat::Service[$name],
+        target => "/usr/share/tomcat${tomcatlegacy::version}/bin/bootstrap.jar",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     # For using apparmor profiles per instance it needs a file instead of a symlink
     file { "${instance_home}/tomcat/bin/catalina.sh":
         ensure => file,
-        source => "/usr/share/tomcat${tomcat::version}/bin/catalina.sh",
+        source => "/usr/share/tomcat${tomcatlegacy::version}/bin/catalina.sh",
         owner  => 'root',
         group  => 'root',
         mode   => '755',
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/digest.sh":
         ensure => link,
-        target => "/usr/share/tomcat${tomcat::version}/bin/digest.sh",
-        notify => Tomcat::Service[$name],
+        target => "/usr/share/tomcat${tomcatlegacy::version}/bin/digest.sh",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/setclasspath.sh":
         ensure => link,
-        target => "/usr/share/tomcat${tomcat::version}/bin/setclasspath.sh",
-        notify => Tomcat::Service[$name],
+        target => "/usr/share/tomcat${tomcatlegacy::version}/bin/setclasspath.sh",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/shutdown.sh":
         ensure => file, # file instead of a link so it uses the instance catalina.sh
-        source => "/usr/share/tomcat${tomcat::version}/bin/shutdown.sh",
+        source => "/usr/share/tomcat${tomcatlegacy::version}/bin/shutdown.sh",
         owner  => 'root',
         group  => 'root',
         mode   => '755',
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/startup.sh":
         ensure => file, # file instead of a link so it uses the instance catalina.sh
-        source => "/usr/share/tomcat${tomcat::version}/bin/startup.sh",
+        source => "/usr/share/tomcat${tomcatlegacy::version}/bin/startup.sh",
         owner  => 'root',
         group  => 'root',
         mode   => '755',
-        notify => Tomcat::Service[$name],
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/tool-wrapper.sh":
         ensure => link,
-        target => "/usr/share/tomcat${tomcat::version}/bin/tool-wrapper.sh",
-        notify => Tomcat::Service[$name],
+        target => "/usr/share/tomcat${tomcatlegacy::version}/bin/tool-wrapper.sh",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/version.sh":
         ensure => link,
-        target => "/usr/share/tomcat${tomcat::version}/bin/version.sh",
-        notify => Tomcat::Service[$name],
+        target => "/usr/share/tomcat${tomcatlegacy::version}/bin/version.sh",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/conf/catalina.properties":
         ensure => link,
-        target => "/etc/tomcat${tomcat::version}/catalina.properties",
-        notify => Tomcat::Service[$name],
+        target => "/etc/tomcat${tomcatlegacy::version}/catalina.properties",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/conf/logging.properties":
         ensure => link,
-        target => "/etc/tomcat${tomcat::version}/logging.properties",
-        notify => Tomcat::Service[$name],
+        target => "/etc/tomcat${tomcatlegacy::version}/logging.properties",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/conf/policy.d":
         ensure => link,
-        target => "/etc/tomcat${tomcat::version}/policy.d",
-        notify => Tomcat::Service[$name],
+        target => "/etc/tomcat${tomcatlegacy::version}/policy.d",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/conf/web.xml":
         ensure => link,
-        target => "/etc/tomcat${tomcat::version}/web.xml",
-        notify => Tomcat::Service[$name],
+        target => "/etc/tomcat${tomcatlegacy::version}/web.xml",
+        notify => Tomcatlegacy::Service[$name],
     }
 
     file { "${instance_home}/tomcat/bin/setenv.sh":
-        content => template('tomcat/setenv.sh.erb'),
-        notify  => Tomcat::Service[$name],
+        content => template('tomcatlegacy/setenv.sh.erb'),
+        notify  => Tomcatlegacy::Service[$name],
         owner   => $name,
         mode    => '0740',
     }
@@ -281,7 +281,7 @@ define tomcat::instance (
         ensure  => $ensure,
         content => '',
         require => User[$name],
-        notify  => Tomcat::Service[$name],
+        notify  => Tomcatlegacy::Service[$name],
         mode    => '0640',
     }
 
@@ -289,9 +289,9 @@ define tomcat::instance (
         ensure  => $ensure,
         owner   => $name,
         group   => $name,
-        content => template('tomcat/server.xml.erb'),
+        content => template('tomcatlegacy/server.xml.erb'),
         require => File["${instance_home}/tomcat"],
-        notify  => Tomcat::Service[$name],
+        notify  => Tomcatlegacy::Service[$name],
         mode    => '0640',
     }
 
@@ -299,9 +299,9 @@ define tomcat::instance (
         ensure  => $ensure,
         owner   => $name,
         group   => $name,
-        content => template('tomcat/context.xml.erb'),
+        content => template('tomcatlegacy/context.xml.erb'),
         require => File["${instance_home}/tomcat"],
-        notify  => Tomcat::Service[$name],
+        notify  => Tomcatlegacy::Service[$name],
         mode    => '0640',
     }
 }
